@@ -1,0 +1,6 @@
+{
+    "supportedFileTypes": [".txt"],
+    "reqPerSec": 2,
+    "elementsInArray": 2,
+    "startLine": 7
+}

@@ -1,0 +1,16 @@
+{% set status = "BŁAD" %}
+{% set rowClass = "table-warning" %}
+{% if (data.status == "YES") %}
+    {% set status = "TAK" %} 
+    {% set rowClass = "table-success" %}
+{% elseif (data.status == "NO") %}
+    {% set status = "NIE" %}
+    {% set rowClass = "table-danger" %}
+{% endif %}
+<tr class="{{ rowClass }}">
+    <td>{{ status }} [{{ data.status_org }}]</td>
+    <td>{{ data.companyData.col11 }}</td>
+    <td>{{ data.number }}</td>
+    <td>{{ data.country }}</td>
+    <td>{{ data.companyData.sapId }} -  {{ data.companyData.name }}, {{ data.companyData.street }}, {{ data.companyData.postCode }} {{ data.companyData.city }}</td>
+</tr>

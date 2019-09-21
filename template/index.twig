@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Raport {{ datetime }}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+        <h3>Dostępne statusy</h3>
+        Dla polskich firm: [<a target="_blank" href="https://finanse-arch.mf.gov.pl/c/document_library/get_file?uuid=fba25e1b-68dc-4f59-8193-323046002134&groupId=766655">dokumentacja</a>]<br>
+        N - Podmiot o podanym identyfikatorze podatkowym NIP nie jest zarejestrowany jako podatnik VAT<br>
+C - Podmiot o podanym identyfikatorze podatkowym NIP jest zarejestrowany jako podatnik VAT czynny<br>
+Z - Podmiot o podanym identyfikatorze podatkowym NIP jest zarejestrowany jako podatnik VAT zwolniony<br>
+Dla zagranicznych firm: [<a target="_blank" href="http://ec.europa.eu/taxation_customs/vies/help.html">dokumentacja</a>]<br>
+true - NIP jest zarejestrowany jako podatnik VAT<br>
+false - NIP nie jest zarejestrowany jako podatnik VAT<br>
+<h2>Raport {{ datetime }}</h2>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Status</th>
+                    <th>Kod</th>
+                    <th>NIP</th>
+                    <th>Kraj</th>
+                    <th>Informacje</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for companyData in data %}
+                    {% for company in companyData %}
+                    {% set nip = company.number %}
+                        {% if (company.provider == 'PL') %}
+                            {% include 'pl.twig' with { 'status': company.status, 'data': company } only %}
+                        {% else %}
+                            {% include 'eu.twig' with { 'status': company.status, 'data': company } only %}
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <hr>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Błędy - [numer NIP odczytany z pliku]</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for error in errors %}
+                    <tr>
+                        <td>{{ error }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+</div>
+</body>
+</html>
